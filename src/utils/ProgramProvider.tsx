@@ -1,7 +1,7 @@
 import {FC, useCallback, ReactNode,} from 'react'
 import { ProgramContext } from './useProgram'
 import { useWallet, useSuiProvider, } from '@suiet/wallet-kit'
-import { TransactionBlock } from '@mysten/sui.js'
+import { TransactionBlock } from '@mysten/sui.js/transactions'
 import { InfoIdo } from './constants'
 
 export interface ProgramProviderProps{
@@ -41,7 +41,7 @@ export const ProgramProvider: FC<ProgramProviderProps> = ({children}) => {
 
     const getIdoContribution = async(table: string) => {
         try{
-            let ido = (await provider.getDynamicFieldObject({parentId: table, name:{type:"address",value:wallet.address}})).data
+            let ido = (await provider.getDynamicFieldObject({parentId: table, name:{type:"address",value:wallet.address}})).data as any
             if(ido?.content?.dataType==="moveObject"){
                 return Number(ido.content.fields.value)
             }else{
